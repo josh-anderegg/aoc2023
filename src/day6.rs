@@ -2,7 +2,6 @@ use std::fs;
 
 pub fn solve() -> (u32, u32){
     let mut sol1 = 1;
-    let mut sol2 = 1;
     let input = fs::read_to_string("inputs/6.txt").unwrap();
     let mut lines = input.lines().into_iter();
     let (_, time_row_str) = lines.next().unwrap().split_once(':').unwrap();

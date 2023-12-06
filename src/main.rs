@@ -36,7 +36,7 @@ fn main() {
             let now = Instant::now();
             let (sol1, sol2) = solver();
             let elapsed = now.elapsed();
-            println!("Solution for day {}: ({}, {}) calculated in {:.2?}", day_nr, sol1, sol2, elapsed);
+            println!("Solution for day {}: ({}, {}) calculated in {:.2?}", day_nr+1, sol1, sol2, elapsed);
         }
         return;
     }
