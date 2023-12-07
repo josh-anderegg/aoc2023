@@ -1,5 +1,4 @@
-use std::{fs, collections::HashMap, fmt};
-#[derive(Debug)]
+use std::{fs, collections::HashMap};
 struct Hand {
     kind_rank1: u32,
     kind_rank2: u32, // Rank with joker utilized
@@ -7,13 +6,7 @@ struct Hand {
     cards_j : Vec<u32>, // cards with joker=1
     bid: u32,
 }
-impl fmt::Display for Hand {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        let hand_str_norm:String = self.cards.iter().map(|v| card_char(*v)).collect();
-        let hand_str_joker:String = self.cards_j.iter().map(|v| card_char(*v)).collect();
-        write!(f, "Normal rules: {hand_str_norm} with rank: {}\nJoker rules {hand_str_joker}: with rank {}", self.kind_rank1, self.kind_rank2)
-    }
-}
+
 impl  Hand {
     fn new(cards:Vec<u32>, cards_j:Vec<u32>, bid: u32) -> Hand {
         let kind_rank1 = Hand::rank_from_cards(&cards, false);
@@ -25,7 +18,7 @@ impl  Hand {
         let mut occ_count:HashMap<u32, u32> = HashMap::new();
         let mut j_count = 0;
         for i in 0..5 {
-            if joker && cards[i] == 11 {
+            if joker && cards[i] == 11 { // 11 is the val of joker
                 j_count += 1;
                 continue;
             }   
@@ -48,19 +41,19 @@ impl  Hand {
         }
         return match (joker, j_count, rank) {
             (false, _, _) => rank,
-            (true, 0, _) => rank,
-            (true, 1, 0) => 1,
-            (true, 1, 1) => 3,
-            (true, 1, 2) => 4,
-            (true, 1, 3) => 5,
-            (true, 1, 5) => 6,
-            (true, 2, 0) => 3,
-            (true, 2, 1) => 5,
-            (true, 2, 3) => 6,
-            (true, 3, 0) => 5,
-            (true, 3, 1) => 6,
-            (true, 4, 0) => 6,
-            (true, 5, 0) => 6, 
+            (_, 0, _) => rank,
+            (_, 1, 0) => 1,
+            (_, 1, 1) => 3,
+            (_, 1, 2) => 4,
+            (_, 1, 3) => 5,
+            (_, 1, 5) => 6,
+            (_, 2, 0) => 3,
+            (_, 2, 1) => 5,
+            (_, 2, 3) => 6,
+            (_, 3, 0) => 5,
+            (_, 3, 1) => 6,
+            (_, 4, 0) => 6,
+            (_, 5, 0) => 6, 
             _ => panic!("thought impossible: j_count {j_count}, {rank} {:?}", cards),
         };
     }
@@ -95,36 +88,15 @@ pub fn solve() -> (u32, u32){
 }
 
 fn card_val (c:char, j:bool) -> u32 {
-    match c.is_digit(10) {
-        true => c.to_digit(10).unwrap(),
-        false => match c {
-            'T' => 10,
-            'J' => if !j {11} else{1},
-            'Q' => 12,
-            'K' => 13,
-            'A' => 14,
-            _ => panic!("unexpected card type") 
-        }
+    match (c.is_digit(10), c) {
+        (true, c) => c.to_digit(10).unwrap(),
+        (_, 'T') => 10,
+        (_, 'J') => if !j {11} else{1},
+        (_, 'Q') => 12,
+        (_, 'K') => 13,
+        (_, 'A') => 14,
+        _ => panic!("unexpected card type"),
     }
 }
 
-fn card_char (i:u32) -> char {
-    match i  {
-        1 => 'J',
-        2 => '2',
-        3 => '3',
-        4 => '4',
-        5 => '5',
-        6 => '6',
-        7 => '7',
-        8 => '8',
-        9 => '9',
-        10 => 'T',
-        11 => 'P',
-        12 => 'Q',
-        13 => 'K',
-        14 => 'A',
-        _ => panic!("Not a valid card number {i}"),
-    }
-}
 
