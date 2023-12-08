@@ -10,7 +10,7 @@ struct Range {
     to: i64
 }
 
-pub fn solve() -> (u32, u32){
+pub fn solve() -> (u64, u64){
     let mut sol1:i64 = 1<<62;
     let mut sol2:i64 = 1<<62;
     let input = fs::read_to_string("inputs/5.txt").expect("File not found");

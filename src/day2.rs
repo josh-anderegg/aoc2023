@@ -1,6 +1,6 @@
 use std::fs;
 
-pub fn solve() -> (u32, u32)  {
+pub fn solve() -> (u64, u64)  {
     let input = fs::read_to_string("inputs/2.txt")
     .expect("File not found");
     let mut sol1 = 0;
@@ -27,7 +27,7 @@ pub fn solve() -> (u32, u32)  {
                     "blue" => 2,
                     _ => panic!("unexpected")
                 };
-                let num = num_str.parse::<u32>().unwrap();
+                let num = num_str.parse::<u64>().unwrap();
                 rgb[tup_pos] = num;      
             }
             for i in 0..3{
@@ -40,7 +40,7 @@ pub fn solve() -> (u32, u32)  {
             }
         }    
         if all_true {
-            sol1 += u32::try_from(id + 1).unwrap();
+            sol1 += u64::try_from(id + 1).unwrap();
         } 
         sol2 += min[0] * min[1] * min[2];   
     }

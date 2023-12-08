@@ -7,12 +7,12 @@ enum Elem {
     G,
 }
 
-pub fn solve() -> (u32, u32) {
+pub fn solve() -> (u64, u64) {
     let input = fs::read_to_string("inputs/3.txt").expect("File not found");
     let mut sol1 = 0;
     let mut sol2 = 0;
     let mut grid: Vec<Vec<Elem>> = Vec::new();
-    let mut gear_list: HashMap<(usize, usize), Vec<u32>> = HashMap::new();
+    let mut gear_list: HashMap<(usize, usize), Vec<u64>> = HashMap::new();
     for line in input.lines(){
         let mut row:Vec<Elem> = Vec::new();
         for c in line.chars(){
@@ -45,7 +45,7 @@ pub fn solve() -> (u32, u32) {
                 },
                 _ => {
                     if  acc.len() > 0 && is_adj{
-                        let val= acc.parse::<u32>().unwrap_or(0);
+                        let val= acc.parse::<u64>().unwrap_or(0);
                         for gear in adj_gears.iter(){
                             let vec = gear_list.entry(*gear).or_insert(vec![]);
                             vec.push(val);
